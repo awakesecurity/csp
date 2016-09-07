@@ -1,6 +1,6 @@
 # Content Security Policy (CSP) Middleware
 
-[![GoDoc](https://godoc.org/github.com/awakenetworks/csp?status.svg)](http://godoc.org/github.com/awakenetworks/csp)
+[![GoDoc](https://godoc.org/github.com/awakenetworks/csp?status.svg)](http://godoc.org/github.com/awakenetworks/csp) [![license](http://img.shields.io/badge/license-Apache-red.svg?style=flat)](https://raw.githubusercontent.com/awakenetworks/csp/master/LICENSE) [![build](https://img.shields.io/travis/awakenetworks/csp.svg?style=flat)](https://travis-ci.org/awakenetworks/csp)
 
 A simple middleware for configuring CSP headers with support for websockets.
 
@@ -113,5 +113,5 @@ func main() {
 
 ```
 
-csp also supports anything that accepts a standard http.HandlerFunc
-(csp.HandlerFunc()) or http.Handler (csp.Middleware).
+csp also supports anything that accepts a standard `http.HandlerFunc`
+(csp.HandlerFunc()) or `http.Handler` (csp.Middleware).
