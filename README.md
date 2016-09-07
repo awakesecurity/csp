@@ -41,9 +41,9 @@ csp has a starter config policy, with reasonable defaults, which
 you can use as a basis for customizing your own.
 
 ```go
-  csp := csp.New(csp.StarterConfig())
+csp := csp.New(csp.StarterConfig())
 
-  ... use of csp middleware ...
+... use of csp middleware ...
 ```
 
 ### Dynamic WebSocket Support
@@ -55,14 +55,14 @@ TODO: consider adding a white-list feature to prevent weird attacks
 against things like vhosts.
 
 ```go
-	csp := csp.New(csp.Config{
-		Default:   csp.None,
-		Script:    csp.Self,
-		Connect:   csp.Self,
-		Img:       csp.Self,
-		Style:     csp.Self,
-		WebSocket: true,
-	})
+csp := csp.New(csp.Config{
+	Default:   csp.None,
+	Script:    csp.Self,
+	Connect:   csp.Self,
+	Img:       csp.Self,
+	Style:     csp.Self,
+	WebSocket: true,
+})
 ```
 
 ## Integration
@@ -99,18 +99,18 @@ func main() {
 ### Alice
 ```go
 
-	csp := csp.New(csp.Config{
-		Default: csp.None,
-		Script:  csp.Self,
-		Connect: csp.Self,
-		Img:     csp.Self,
-		Style:   csp.Self,
-	})
-  	stdChain := alice.New(csp.Middleware)
-	mux := http.NewServeMux()
-	mux.Handle("/", stdChain.ThenFunc(func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "Hello World")
-
+csp := csp.New(csp.Config{
+	Default: csp.None,
+	Script:  csp.Self,
+	Connect: csp.Self,
+	Img:     csp.Self,
+	Style:   csp.Self,
+})
+stdChain := alice.New(csp.Middleware)
+mux := http.NewServeMux()
+mux.Handle("/", stdChain.ThenFunc(func(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "Hello World")
+}
 ```
 
 csp also supports anything that accepts a standard `http.HandlerFunc`
