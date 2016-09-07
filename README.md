@@ -1,5 +1,7 @@
 # Content Security Policy (CSP) Middleware
 
+[![GoDoc](https://godoc.org/github.com/awakenetworks/csp?status.svg)](http://godoc.org/github.com/awakenetworks/csp)
+
 A simple middleware for configuring CSP headers with support for websockets.
 
 This middleware was inspired by github.com/unrolled/secure which
