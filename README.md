@@ -51,6 +51,7 @@ csp := csp.New(csp.StarterConfig())
 Some browsers support sending CSP violation reports to a uri. You can specify
 this in the config with `ReportUri`.
 
+```go
 csp := csp.New(csp.Config{
 	Default:   csp.None,
 	Script:    csp.Self,
@@ -58,6 +59,7 @@ csp := csp.New(csp.Config{
 	Img:       csp.Self,
 	ReportUri: "http://example.com/csp-violations",
 })
+```
 
 ### Dynamic WebSocket Support
 
