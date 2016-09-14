@@ -364,3 +364,20 @@ func TestPartialConfig(t *testing.T) {
 		t.Errorf("Expected Policy %q, got %q", expected, policy)
 	}
 }
+
+func TestHandlerReportUri(t *testing.T) {
+	reportUri := "https://example.com/csp-reports"
+	csp := New(Config{
+		ReportUri: reportUri,
+	})
+	fn := csp.HandlerFunc()
+
+	rw := httptest.NewRecorder()
+	r := &http.Request{}
+	fn(rw, r)
+	header := rw.Header().Get(CSPHeader)
+	if header != fmt.Sprintf(" report-uri %s;", reportUri) {
+		t.Log(header)
+		t.Errorf("expected report-uri to be %q", reportUri)
+	}
+}

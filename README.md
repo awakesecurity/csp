@@ -46,6 +46,19 @@ csp := csp.New(csp.StarterConfig())
 ... use of csp middleware ...
 ```
 
+### CSP violation reports
+
+Some browsers support sending CSP violation reports to a uri. You can specify
+this in the config with `ReportUri`.
+
+csp := csp.New(csp.Config{
+	Default:   csp.None,
+	Script:    csp.Self,
+	Connect:   csp.Self,
+	Img:       csp.Self,
+	ReportUri: "http://example.com/csp-violations",
+})
+
 ### Dynamic WebSocket Support
 
 If you specify WebSocket in the config, the middleware will dynamically
