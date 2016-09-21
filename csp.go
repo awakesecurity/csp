@@ -16,6 +16,7 @@ const (
 	ScriptSrc  = "script-src"
 	ConnectSrc = "connect-src"
 	ImgSrc     = "img-src"
+	FontSrc    = "font-src"
 	StyleSrc   = "style-src"
 	ReportURI  = "report-uri"
 )
@@ -29,6 +30,7 @@ type Config struct {
 	Connect   string // connect-src CSP policy
 	Img       string // img-src CSP policy
 	Style     string // style-src CSP policy
+	Font      string // font-src CSP policy
 	ReportURI string // report-uri CSP violation reports URI
 }
 
@@ -87,7 +89,7 @@ func (csp *CSP) HandlerFunc() http.HandlerFunc {
 // handlerFunc is the http.HandlerFunc interface
 func (csp *CSP) handlerFunc() http.HandlerFunc {
 	// Do as much work during construction as possible
-	var defaultPolicy, scriptPolicy, connectPolicy, imgPolicy, stylePolicy, reportPolicy, baseConnectPolicy string
+	var defaultPolicy, scriptPolicy, connectPolicy, imgPolicy, stylePolicy, fontPolicy, reportPolicy, baseConnectPolicy string
 	if csp.Default != "" {
 		defaultPolicy = fmt.Sprintf("%s %s;", DefaultSrc, csp.Default)
 	}
@@ -103,6 +105,9 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 	if csp.Style != "" {
 		stylePolicy = fmt.Sprintf(" %s %s;", StyleSrc, csp.Style)
 	}
+	if csp.Font != "" {
+		fontPolicy = fmt.Sprintf(" %s %s;", FontSrc, csp.Font)
+	}
 	if csp.ReportURI != "" {
 		reportPolicy = fmt.Sprintf(" %s %s;", ReportURI, csp.ReportURI)
 	}
@@ -110,7 +115,7 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 		baseConnectPolicy = " " + ConnectSrc
 	}
 	preConnectPolicy := defaultPolicy + scriptPolicy
-	postConnectPolicy := imgPolicy + stylePolicy + reportPolicy
+	postConnectPolicy := imgPolicy + stylePolicy + fontPolicy + reportPolicy
 	return func(rw http.ResponseWriter, r *http.Request) {
 		connectPolicy = baseConnectPolicy
 		if csp.WebSocket {

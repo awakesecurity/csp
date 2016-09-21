@@ -305,6 +305,7 @@ func TestAliceIntegration(t *testing.T) {
 		Connect: Self,
 		Img:     Self,
 		Style:   Self,
+		Font:    Self,
 	})
 	stdChain := alice.New(csp.Middleware)
 	mux := http.NewServeMux()
@@ -326,7 +327,7 @@ func TestAliceIntegration(t *testing.T) {
 		t.Fail()
 	}
 
-	expected := "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';"
+	expected := "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; font-src 'self';"
 	policy := res.Header.Get(CSPHeader)
 	if expected != policy {
 		t.Errorf("Expected Policy %q, got %q", expected, policy)
