@@ -17,7 +17,7 @@ const (
 	ConnectSrc = "connect-src"
 	ImgSrc     = "img-src"
 	StyleSrc   = "style-src"
-	ReportUri  = "report-uri"
+	ReportURI  = "report-uri"
 )
 
 // Config is Content Security Policy Configuration. If you do not define a
@@ -29,7 +29,7 @@ type Config struct {
 	Connect   string // connect-src CSP policy
 	Img       string // img-src CSP policy
 	Style     string // style-src CSP policy
-	ReportUri string // report-uri CSP violation reports URI
+	ReportURI string // report-uri CSP violation reports URI
 }
 
 // StarterConfig is a reasonable default set of policies.
@@ -103,8 +103,8 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 	if csp.Style != "" {
 		stylePolicy = fmt.Sprintf(" %s %s;", StyleSrc, csp.Style)
 	}
-	if csp.ReportUri != "" {
-		reportPolicy = fmt.Sprintf(" %s %s;", ReportUri, csp.ReportUri)
+	if csp.ReportURI != "" {
+		reportPolicy = fmt.Sprintf(" %s %s;", ReportURI, csp.ReportURI)
 	}
 	if csp.WebSocket && len(csp.Connect) == 0 {
 		baseConnectPolicy = " " + ConnectSrc

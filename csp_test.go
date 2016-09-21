@@ -365,10 +365,10 @@ func TestPartialConfig(t *testing.T) {
 	}
 }
 
-func TestHandlerReportUri(t *testing.T) {
-	reportUri := "https://example.com/csp-reports"
+func TestHandlerReportURI(t *testing.T) {
+	reportURI := "https://example.com/csp-reports"
 	csp := New(Config{
-		ReportUri: reportUri,
+		ReportURI: reportURI,
 	})
 	fn := csp.HandlerFunc()
 
@@ -376,8 +376,8 @@ func TestHandlerReportUri(t *testing.T) {
 	r := &http.Request{}
 	fn(rw, r)
 	header := rw.Header().Get(CSPHeader)
-	if header != fmt.Sprintf(" report-uri %s;", reportUri) {
+	if header != fmt.Sprintf(" report-uri %s;", reportURI) {
 		t.Log(header)
-		t.Errorf("expected report-uri to be %q", reportUri)
+		t.Errorf("expected report-uri to be %q", reportURI)
 	}
 }
