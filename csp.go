@@ -16,8 +16,9 @@ const (
 	ScriptSrc  = "script-src"
 	ConnectSrc = "connect-src"
 	ImgSrc     = "img-src"
+	FontSrc    = "font-src"
 	StyleSrc   = "style-src"
-	ReportUri  = "report-uri"
+	ReportURI  = "report-uri"
 )
 
 // Config is Content Security Policy Configuration. If you do not define a
@@ -29,7 +30,8 @@ type Config struct {
 	Connect   string // connect-src CSP policy
 	Img       string // img-src CSP policy
 	Style     string // style-src CSP policy
-	ReportUri string // report-uri CSP violation reports URI
+	Font      string // font-src CSP policy
+	ReportURI string // report-uri CSP violation reports URI
 }
 
 // StarterConfig is a reasonable default set of policies.
@@ -87,7 +89,7 @@ func (csp *CSP) HandlerFunc() http.HandlerFunc {
 // handlerFunc is the http.HandlerFunc interface
 func (csp *CSP) handlerFunc() http.HandlerFunc {
 	// Do as much work during construction as possible
-	var defaultPolicy, scriptPolicy, connectPolicy, imgPolicy, stylePolicy, reportPolicy, baseConnectPolicy string
+	var defaultPolicy, scriptPolicy, connectPolicy, imgPolicy, stylePolicy, fontPolicy, reportPolicy, baseConnectPolicy string
 	if csp.Default != "" {
 		defaultPolicy = fmt.Sprintf("%s %s;", DefaultSrc, csp.Default)
 	}
@@ -103,14 +105,17 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 	if csp.Style != "" {
 		stylePolicy = fmt.Sprintf(" %s %s;", StyleSrc, csp.Style)
 	}
-	if csp.ReportUri != "" {
-		reportPolicy = fmt.Sprintf(" %s %s;", ReportUri, csp.ReportUri)
+	if csp.Font != "" {
+		fontPolicy = fmt.Sprintf(" %s %s;", FontSrc, csp.Font)
+	}
+	if csp.ReportURI != "" {
+		reportPolicy = fmt.Sprintf(" %s %s;", ReportURI, csp.ReportURI)
 	}
 	if csp.WebSocket && len(csp.Connect) == 0 {
 		baseConnectPolicy = " " + ConnectSrc
 	}
 	preConnectPolicy := defaultPolicy + scriptPolicy
-	postConnectPolicy := imgPolicy + stylePolicy + reportPolicy
+	postConnectPolicy := imgPolicy + stylePolicy + fontPolicy + reportPolicy
 	return func(rw http.ResponseWriter, r *http.Request) {
 		connectPolicy = baseConnectPolicy
 		if csp.WebSocket {

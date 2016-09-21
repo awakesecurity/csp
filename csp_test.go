@@ -305,6 +305,7 @@ func TestAliceIntegration(t *testing.T) {
 		Connect: Self,
 		Img:     Self,
 		Style:   Self,
+		Font:    Self,
 	})
 	stdChain := alice.New(csp.Middleware)
 	mux := http.NewServeMux()
@@ -326,7 +327,7 @@ func TestAliceIntegration(t *testing.T) {
 		t.Fail()
 	}
 
-	expected := "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';"
+	expected := "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; font-src 'self';"
 	policy := res.Header.Get(CSPHeader)
 	if expected != policy {
 		t.Errorf("Expected Policy %q, got %q", expected, policy)
@@ -365,10 +366,10 @@ func TestPartialConfig(t *testing.T) {
 	}
 }
 
-func TestHandlerReportUri(t *testing.T) {
-	reportUri := "https://example.com/csp-reports"
+func TestHandlerReportURI(t *testing.T) {
+	reportURI := "https://example.com/csp-reports"
 	csp := New(Config{
-		ReportUri: reportUri,
+		ReportURI: reportURI,
 	})
 	fn := csp.HandlerFunc()
 
@@ -376,8 +377,8 @@ func TestHandlerReportUri(t *testing.T) {
 	r := &http.Request{}
 	fn(rw, r)
 	header := rw.Header().Get(CSPHeader)
-	if header != fmt.Sprintf(" report-uri %s;", reportUri) {
+	if header != fmt.Sprintf(" report-uri %s;", reportURI) {
 		t.Log(header)
-		t.Errorf("expected report-uri to be %q", reportUri)
+		t.Errorf("expected report-uri to be %q", reportURI)
 	}
 }
