@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/urfave/negroni"
 	"net/http"
+	"strings"
 )
 
 // Helpful constants for CSP values
@@ -24,14 +25,15 @@ const (
 // Config is Content Security Policy Configuration. If you do not define a
 // policy string it will not be included in the policy output
 type Config struct {
-	WebSocket bool   // enable dynamic websocket support in CSP
-	Default   string // default-src CSP policy
-	Script    string // script-src CSP policy
-	Connect   string // connect-src CSP policy
-	Img       string // img-src CSP policy
-	Style     string // style-src CSP policy
-	Font      string // font-src CSP policy
-	ReportURI string // report-uri CSP violation reports URI
+	WebSocket    bool     // enable dynamic websocket support in CSP
+	Default      string   // default-src CSP policy
+	Script       string   // script-src CSP policy
+	Connect      string   // connect-src CSP policy
+	Img          string   // img-src CSP policy
+	Style        string   // style-src CSP policy
+	Font         string   // font-src CSP policy
+	ReportURI    string   // report-uri CSP violation reports URI
+	IgnorePrefix []string // URL prefixes not to apply CSP too
 }
 
 // StarterConfig is a reasonable default set of policies.
@@ -117,6 +119,12 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 	preConnectPolicy := defaultPolicy + scriptPolicy
 	postConnectPolicy := imgPolicy + stylePolicy + fontPolicy + reportPolicy
 	return func(rw http.ResponseWriter, r *http.Request) {
+		for _, prefix := range csp.IgnorePrefix {
+			// exclude specified paths from CSP protection
+			if strings.HasPrefix(r.URL.Path, prefix) {
+				return
+			}
+		}
 		connectPolicy = baseConnectPolicy
 		if csp.WebSocket {
 			proto := "ws"
