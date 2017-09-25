@@ -127,11 +127,7 @@ func (csp *CSP) handlerFunc() http.HandlerFunc {
 		}
 		connectPolicy = baseConnectPolicy
 		if csp.WebSocket {
-			proto := "ws"
-			if r.TLS != nil {
-				proto = "wss"
-			}
-			connectPolicy = fmt.Sprintf("%s %s://%s", connectPolicy, proto, r.Host)
+			connectPolicy = fmt.Sprintf("%s ws://%s wss://%s", connectPolicy, r.Host, r.Host)
 		}
 		if len(connectPolicy) > 0 {
 			connectPolicy += ";"
