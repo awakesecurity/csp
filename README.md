@@ -1,3 +1,5 @@
+**NOTE**: _This repository is no longer supported or updated by Awake Security / Arista Networks. If you wish to continue to develop this code yourself, we recommend you fork it._
+
 # Content Security Policy (CSP) Middleware
 
 [![GoDoc](https://godoc.org/github.com/awakenetworks/csp?status.svg)](http://godoc.org/github.com/awakenetworks/csp) [![license](http://img.shields.io/badge/license-Apache-red.svg?style=flat)](https://raw.githubusercontent.com/awakenetworks/csp/master/LICENSE) [![build](https://img.shields.io/travis/awakenetworks/csp.svg?style=flat)](https://travis-ci.org/awakenetworks/csp)
